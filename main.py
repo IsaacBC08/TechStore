@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, current_app, jsonify
+import requests
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -29,6 +30,9 @@ def get_unique_filename(filename):
 
 @app.route('/')
 def index():
+    response = requests.get('https://api.ipify.org')
+    ip_address = response.text
+    print(ip_address)
     # Conectar a la base de datos
     conexion = db.iniciar_conexion()
     cursor = conexion.cursor(dictionary=True)
