@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Producto - TechStore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <!-- Título -->
+            <div class="mb-8 text-center">
+                <h2 class="text-3xl font-bold text-[#333333]">Añadir Producto</h2>
+                <p class="mt-2 text-gray-600">Complete los detalles del nuevo producto</p>
+            </div>
+
+            <!-- Mensajes Flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="mb-6 p-4 rounded-lg {% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <!-- Formulario -->
+            <form action="/agregar_producto" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <!-- Nombre del Producto -->
+                <div>
+                    <label for="Nombre_Producto" class="block text-sm font-medium text-[#333333] mb-2">
+                        Nombre del Producto
+                    </label>
+                    <input type="text" 
+                           id="Nombre_Producto" 
+                           name="Nombre_Producto" 
+                           required
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#007BFF] focus:border-transparent transition-all">
+                </div>
+
+                <!-- Precio -->
+                <div>
+                    <label for="Precio" class="block text-sm font-medium text-[#333333] mb-2">
+                        Precio
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">₡</span>
+                        <input type="number" 
+                               id="Precio" 
+                               name="Precio" 
+                               required
+                               class="w-full pl-8 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#007BFF] focus:border-transparent transition-all">
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div>
+                    <label for="Descripcion" class="block text-sm font-medium text-[#333333] mb-2">
+                        Descripción
+                    </label>
+                    <textarea id="Descripcion" 
+                              name="Descripcion" 
+                              required
+                              rows="4"
+                              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#007BFF] focus:border-transparent transition-all"></textarea>
+                </div>
+
+                <!-- Imagen -->
+                <div>
+                    <label for="Imagen" class="block text-sm font-medium text-[#333333] mb-2">
+                        Imagen del Producto
+                    </label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-[#007BFF] transition-all">
+                        <div class="space-y-1 text-center">
+                            <i data-feather="image" class="mx-auto h-12 w-12 text-gray-400"></i>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="Imagen" class="relative cursor-pointer bg-white rounded-md font-medium text-[#007BFF] hover:text-[#0056b3] focus-within:outline-none">
+                                    <span>Seleccionar archivo</span>
+                                    <input id="Imagen" name="Imagen" type="file" required class="sr-only">
+                                </label>
+                                <p class="pl-1">o arrastrar y soltar</p>
+                            </div>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de Submit -->
+                <div class="flex justify-end space-x-4">
+                    <a href="#" class="px-6 py-3 rounded-lg text-[#333333] hover:bg-gray-100 transition-all">
+                        Cancelar
+                    </a>
+                    <button type="submit" 
+                            class="px-6 py-3 bg-[#007BFF] text-white rounded-lg hover:bg-[#0056b3] transition-all">
+                        Añadir Producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Initialize Feather Icons -->
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>

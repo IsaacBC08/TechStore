@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore - Productos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+        * {
+            font-family: "Inter", sans-serif;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #007bff, #00f2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.1);
+        }
+
+        .product-description {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Mobile filters animation */
+        .filters-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .filters-container.expanded {
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .category-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .category-items.expanded {
+            max-height: 500px;
+            transition: max-height 0.3s ease-in;
+        }
+
+        @media (min-width: 768px) {
+            .filters-container {
+                max-height: none !important;
+            }
+
+            .category-items {
+                max-height: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="fixed w-full glass-effect shadow-sm z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold gradient-text">TechStore</div>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-blue-600 transition-colors">Inicio</a>
+                    <a href="/productos" class="text-blue-600">Productos</a>
+                    <a href="https://wa.me/+50660060202" target="_blank"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all flex items-center">
+                        <i data-feather="message-circle" class="w-4 h-4 mr-2"></i>
+                        WhatsApp
+                    </a>
+                </div>
+
+                <button class="md:hidden" data-collapse-toggle="mobile-menu">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+
+            <div class="hidden md:hidden mt-4" id="mobile-menu">
+                <div class="flex flex-col space-y-4">
+                    <a href="/" class="text-gray-700 hover:text-blue-600">Inicio</a>
+                    <a href="/productos" class="text-blue-600">Productos</a>
+                    <a href="https://wa.me/+50660060202" target="_blank"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg text-center">
+                        <i data-feather="message-circle" class="w-4 h-4 mr-2 inline"></i>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="pt-24 min-h-screen">
+        <!-- Mobile Search and Filters -->
+        <div class="md:hidden px-4 mb-6">
+            <div class="flex gap-2 mb-4">
+                <div class="flex-1">
+                    <input type="text" id="mobile-search" placeholder="Buscar productos..."
+                        class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                </div>
+                <button id="mobile-filter-toggle"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <i data-feather="filter"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Filters -->
+            <div class="filters-container bg-white rounded-lg shadow-md">
+                <div class="p-4 space-y-4">
+                    <!-- Categories -->
+                    <div class="border-b pb-4">
+                        <button class="category-toggle flex justify-between items-center w-full">
+                            <span class="font-medium">Categorías</span>
+                            <i data-feather="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div class="category-items mt-2 pl-4">
+                            <label class="flex items-center py-2">
+                                <input type="checkbox" class="rounded text-blue-600" />
+                                <span class="ml-2">Hogar Inteligente</span>
+                            </label>
+                            <label class="flex items-center py-2">
+                                <input type="checkbox" class="rounded text-blue-600" />
+                                <span class="ml-2">Gaming</span>
+                            </label>
+                            <label class="flex items-center py-2">
+                                <input type="checkbox" class="rounded text-blue-600" />
+                                <span class="ml-2">Periféricos</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Sort -->
+                    <div>
+                        <label class="block font-medium mb-2">Ordenar por</label>
+                        <select id="mobile-order-select"
+                            class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value="">Relevancia</option>
+                            <option value="precio-bajo">Precio: Menor a Mayor</option>
+                            <option value="precio-alto">Precio: Mayor a Menor</option>
+                            <option value="nombre-az">Nombre: A-Z</option>
+                            <option value="nombre-za">Nombre: Z-A</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Sidebar -->
+        <aside
+            class="hidden md:block fixed top-24 left-0 w-64 h-[calc(100vh-6rem)] bg-white shadow-lg z-40 overflow-y-auto">
+            <div class="p-6 space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Filtros</h3>
+                    <input type="text" id="desktop-search" placeholder="Buscar productos..."
+                        class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                </div>
+
+                <div>
+                    <h4 class="font-medium mb-3">Categorías</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded text-blue-600" />
+                            <span class="ml-2">Hogar Inteligente</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded text-blue-600" />
+                            <span class="ml-2">Gaming</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded text-blue-600" />
+                            <span class="ml-2">Periféricos</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-medium mb-3">Ordenar por</h4>
+                    <select id="desktop-order-select"
+                        class="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="">Relevancia</option>
+                        <option value="precio-bajo">Precio: Menor a Mayor</option>
+                        <option value="precio-alto">Precio: Mayor a Menor</option>
+                        <option value="nombre-az">Nombre: A-Z</option>
+                        <option value="nombre-za">Nombre: Z-A</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Products Grid -->
+        <main class="md:ml-64 px-4 md:px-6 py-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for producto in productos %}
+                <div class="product-card bg-white rounded-xl overflow-hidden">
+                    <div class="relative">
+                        <img src="{{ producto['imagen'] }}" alt="{{ producto['nombre'] }}"
+                            class="w-full h-48 object-cover" />
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                                Nuevo
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ producto['nombre'] }}</h3>
+                        <p class="product-description text-gray-600 text-sm mb-6">
+                            {{ producto['descripcion'] }}
+                        </p>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-blue-600">₡{{ producto['precio'] }}</span>
+                            <div class="flex gap-2">
+                                <a href="/detalles/{{ producto['id'] }}"
+                                    class="px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-full transition-colors">
+                                    Ver más
+                                </a>
+                                <a href="https://wa.me/+50660060202?text=Me%20interesa%20el%20{{ producto['nombre'] | replace(' ', '%20') }}"
+                                    target="_blank"
+                                    class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition-colors text-sm flex items-center">
+                                    <i data-feather="shopping-cart" class="w-4 h-4 mr-2"></i>
+                                    Comprar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // Mobile filters toggle
+        const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
+        const filtersContainer = document.querySelector('.filters-container');
+
+        mobileFilterToggle.addEventListener('click', () => {
+            filtersContainer.classList.toggle('expanded');
+            const icon = mobileFilterToggle.querySelector('i');
+            icon.style.transform = filtersContainer.classList.contains('expanded') ? 'rotate(180deg)' : '';
+        });
+
+        // Category toggles
+        document.querySelectorAll('.category-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const items = toggle.nextElementSibling;
+                const icon = toggle.querySelector('i');
+                items.classList.toggle('expanded');
+                icon.style.transform = items.classList.contains('expanded') ? 'rotate(180deg)' : '';
+            });
+        });
+
+        // Search functionality
+        function setupSearch(searchInput) {
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const name = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('.product-description').textContent.toLowerCase();
+                    card.style.display = (name.includes(searchTerm) || description.includes(searchTerm)) ? 'block' : 'none';
+                });
+            });
+        }
+
+        // Sort functionality
+        function setupSort(selectElement) {
+            selectElement.addEventListener('change', () => {
+                const selectedValue = selectElement.value;
+                const products = Array.from(document.querySelectorAll('.product-card'));
+                const container = document.querySelector('.grid');
+
+                products.sort((a, b) => {
+                    const nameA = a.querySelector('h3').textContent.toLowerCase();
+                    const nameB = b.querySelector('h3').textContent.toLowerCase();
+                    const priceA = parseFloat(a.querySelector('.text-xl').textContent.replace('₡', '').replace(',', ''));
+                    const priceB = parseFloat(b.querySelector('.text-xl').textContent.replace('₡', '').replace(',', ''));
+
+                    switch (selectedValue) {
+                        case 'precio-bajo': return priceA - priceB;
+                        case 'precio-alto': return priceB - priceA;
+                        case 'nombre-az': return nameA.localeCompare(nameB);
+                        case 'nombre-za': return nameB.localeCompare(nameA);
+                        default: return 0;
+                    }
+                });
+
+                products.forEach(product => container.appendChild(product));
+            });
+        }
+
+        // Initialize search and sort for both mobile and desktop
+        setupSearch(document.getElementById('mobile-search'));
+        setupSearch(document.getElementById('desktop-search'));
+        setupSort(document.getElementById('mobile-order-select'));
+        setupSort(document.getElementById('desktop-order-select'));
+    </script>
+</body>
+
+</html>
