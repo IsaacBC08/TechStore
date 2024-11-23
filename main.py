@@ -6,11 +6,12 @@ from uuid import uuid4
 from DataBase import Base_De_Datos
 from models import Producto
 import threading
-
+from dotenv import load_dotenv
 semaforo = threading.Semaphore(1)
 app = Flask(__name__)
 db = Base_De_Datos()
-app.config['SECRET_KEY'] = 'una_clave_secreta_unica_y_segura'
+load_dotenv()
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 disponible = True
 class Config:
     UPLOAD_FOLDER = 'static/uploads/productos'
@@ -104,4 +105,4 @@ def agregar_producto():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
