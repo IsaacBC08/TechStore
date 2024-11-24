@@ -20,6 +20,9 @@
 {% endblock %}
 
 {% block content %}
+<br>
+<br>
+<br>
 <!-- Hero Section -->
 <section class="py-12 bg-gradient-to-br from-blue-50 via-white to-gray-50">
     <div class="container mx-auto px-4">
@@ -186,34 +189,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100,
-        });
 
-        // Resto del código JavaScript existente...
-    });
-    feather.replace();
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const mobileMenuButton = document.querySelector('[data-collapse-toggle="mobile-menu"]');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuButton.addEventListener('click', function () {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    });
-</script>
 {% endblock %}
