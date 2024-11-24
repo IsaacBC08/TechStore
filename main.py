@@ -11,7 +11,7 @@ app = Flask(__name__)
 db = Base_De_Datos()
 load_dotenv()
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-disponible = True
+
 class Config:
     UPLOAD_FOLDER = 'static/uploads/productos'
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
@@ -40,11 +40,12 @@ def productos():
     productos = [Producto.crear_desde_registro(fila) for fila in productos_data]
     db.cerrar_conexion()
     return render_template('productos.html', productos=productos,categorias=categorias)
+
 @app.route('/detalles/<int:id>')
 def detalles(id):
     producto = db.get_products(id=id)
     producto = Producto.crear_desde_registro(producto[0])
-    relacionados = db.get_products(category=producto.categoria, limit=3)
+    relacionados = db.get_products(category=producto.categoria, limit=3, exclude=id)
     relacionados = [Producto.crear_desde_registro(fila) for fila in relacionados]
     return render_template('detalles.html', producto = producto, relacionados = relacionados)
 
@@ -56,6 +57,8 @@ def agregar_producto():
             nombre = request.form['Nombre_Producto']
             precio = request.form['Precio']
             descripcion = request.form['Descripcion']
+            categoria = request.form['Categoria']
+            estado = request.form['Estado']
             imagen = request.files.get('Imagen')
             
             # Validaciones
@@ -81,9 +84,9 @@ def agregar_producto():
             # Insertar en la base de datos
             conexion = db.iniciar_conexion()
             try:
-                query = """INSERT INTO Productos (Nombre_Producto, Descripcion, Precio, Imagen) 
+                query = """INSERT INTO Productos (Nombre_Producto, Descripcion, Precio, Imagen,Categoria, Estado) 
                            VALUES (%s, %s, %s, %s)"""
-                conexion.cursor().execute(query, (nombre, descripcion, precio, imagen_url))
+                conexion.cursor().execute(query, (nombre, descripcion, precio, imagen_url, categoria, estado))
                 conexion.commit()
                 flash('Producto agregado exitosamente', 'success')
             except Exception as e:

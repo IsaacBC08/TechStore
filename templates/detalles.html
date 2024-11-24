@@ -35,7 +35,7 @@
             <div class="md:flex">
                 <!-- Product Image -->
                 <div class="md:w-1/2">
-                    <div class="relative h-[400px] md:h-[600px] cursor-pointer">
+                    <div class="relative h-[400px] md:h-[600px] cursor-zoom-in">
                         <img src="../{{ producto['imagen'] }}" alt="{{ producto['nombre'] }}"
                             class="w-full h-full object-cover" />
                         <div class="absolute top-4 right-4">
@@ -84,7 +84,7 @@
                         <div class="pt-6 border-t">
                             <div class="flex items-center justify-between">
                                 <span class="text-3xl font-bold text-blue-600">₡{{ producto['precio'] }}</span>
-                                <a href="https://wa.me/+50660060202?text=Me%20interesa%20el%20{{ producto['nombre'] | replace(' ', '%20') }}"
+                                <a href="https://wa.me/+50660060202?text=Me%20interesa%20el%20producto%20{{ producto['nombre'] | replace(' ', '%20') }}"
                                     target="_blank"
                                     class="bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition-colors flex items-center">
                                     <i data-feather="shopping-cart" class="w-5 h-5 mr-2"></i>

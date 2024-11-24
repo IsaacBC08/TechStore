@@ -1,12 +1,20 @@
 {% extends "Main.html" %}
 
-{% block title %}TechStore - Productos {% endblock %}
+{% block title %}TechStore - Productos{% endblock %}
 {% block styles %}
 <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
     * {
         font-family: "Inter", sans-serif;
+    }
+
+    body {
+        scrollbar-width: 0;
+    }
+
+    body::-webkit-scrollbar {
+        display: none;
     }
 
     .glass-effect {
@@ -70,6 +78,7 @@
             max-height: none !important;
         }
     }
+
 </style>
 {% endblock %}
 {% block content %}
@@ -119,6 +128,31 @@
                         <option value="nombre-za">Nombre: Z-A</option>
                     </select>
                 </div>
+                <!-- Price Filter Section -->
+
+                <div class="md:ml-64 px-4 md:px-6 py-4">
+                    <div class="bg-white p-4 rounded-xl shadow-sm mb-6">
+                        <h3 class="text-lg font-semibold mb-4">Filtros de precio</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="w-full sm:w-auto">
+                                <label class="block text-sm text-gray-600 mb-1">Precio mínimo</label>
+                                <input type="number" id="minPrice" placeholder="₡0"
+                                    class="w-full sm:w-32 px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div class="w-full sm:w-auto">
+                                <label class="block text-sm text-gray-600 mb-1">Precio máximo</label>
+                                <input type="number" id="maxPrice" placeholder="₡1000000"
+                                    class="w-full sm:w-32 px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div class="w-full sm:w-auto flex items-end">
+                                <button onclick="filterProducts()"
+                                    class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    Aplicar filtros
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -157,55 +191,81 @@
                     <option value="nombre-za">Nombre: Z-A</option>
                 </select>
             </div>
+            
+            <div class="md:ml-64 px-4 md:px-6 py-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Filtros de precio</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="w-full sm:w-auto">
+                            <label class="block text-sm text-gray-600 mb-1">Precio mínimo</label>
+                            <input type="number" id="minPrice" placeholder="₡0"
+                                class="w-full sm:w-32 px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div class="w-full sm:w-auto">
+                            <label class="block text-sm text-gray-600 mb-1">Precio máximo</label>
+                            <input type="number" id="maxPrice" placeholder="₡1000000"
+                                class="w-full sm:w-32 px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div class="w-full sm:w-auto flex items-end">
+                            <button onclick="filterProducts()"
+                                class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                Aplicar filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </aside>
 
     <!-- Products Grid -->
-    <main class="md:ml-64 px-4 md:px-6 py-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <main class="md:ml-64 px-4 md:px-6 pb-8">
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {% for producto in productos %}
-            <div class="product-card bg-white rounded-xl overflow-hidden h-[32rem] cursor-pointer" data-id="{{ producto['id'] }}"
-                onclick="redirectToDetails(this)">
-                <div class="relative h-48">
+            <div class="product-card bg-white rounded-xl overflow-hidden h-[28rem] sm:h-[32rem] cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+                data-id="{{ producto['id'] }}" data-price="{{ producto['precio'] }}" onclick="redirectToDetails(this)">
+                <div class="relative h-36 sm:h-48">
                     <img src="{{ producto['imagen'] }}" alt="{{ producto['nombre'] }}"
                         class="w-full h-full object-cover" />
-                    <div class="absolute top-4 right-4">
+                    <div class="absolute top-2 sm:top-4 right-2 sm:right-4">
                         {% if producto['estado'] == 'Nuevo' %}
-                        <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                        <span class="bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                             {{ producto['estado'] }}
                         </span>
                         {% elif producto['estado'] == 'Descuento' %}
-                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm">
+                        <span class="bg-red-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                             {{ producto['estado'] }} -{{ producto['descuento'] }}%
                         </span>
                         {% elif producto['estado'] == 'Recomendado' %}
-                        <span class="bg-amber-500 text-white px-3 py-1 rounded-full text-sm">
+                        <span class="bg-amber-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                             {{ producto['estado'] }}
                         </span>
                         {% endif %}
                     </div>
                 </div>
 
-                <div class="p-6 flex flex-col h-[calc(32rem-12rem)]">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ producto['nombre'] }}</h3>
-                    <div class="flex-grow overflow-y-hidden mb-6">
-                        <p class="product-description text-gray-600 text-sm">
-                            {{ producto['descripcion'] }}
+                <div class="p-4 sm:p-6 flex flex-col h-[calc(28rem-12rem)] sm:h-[calc(32rem-16rem)]">
+                    <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-2">{{ producto['nombre'] }}</h3>
+                    <div class="flex-grow overflow-y-auto mb-4 sm:mb-6 descripcion">
+                        <p class="product-description text-gray-600 text-xs sm:text-sm">
+                            {% if producto['descripcion']|length > 150 %}
+                                {{ producto['descripcion']|replace(producto['descripcion'][150:], "...") }}
+                            {% endif %}
                         </p>
                         <span class="hidden product-category">{{ producto['categoria'] }}</span>
                     </div>
 
-                    <div class="flex justify-between items-center mt-auto">
-                        <span class="text-xl font-bold text-blue-600">₡{{ producto['precio'] }}</span>
-                        <div class="flex gap-2">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-auto gap-2">
+                        <span class="text-lg sm:text-xl font-bold text-blue-600">₡{{ producto['precio'] }}</span>
+                        <div class="flex gap-2 w-full sm:w-auto">
                             <a href="/detalles/{{ producto['id'] }}"
-                                class="px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-full transition-colors">
+                                class="flex-1 sm:flex-none text-center px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-blue-600 hover:bg-blue-50 rounded-full transition-colors">
                                 Ver más
                             </a>
-                            <a href="https://wa.me/+50660060202?text=Me%20interesa%20el%20{{ producto['nombre'] | replace(' ', '%20') }}"
+                            <a href="https://wa.me/+50660060202?text=Me%20interesa%20el%20producto%20{{ producto['nombre'] | replace(' ', '%20') }}"
                                 target="_blank"
-                                class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition-colors text-sm flex items-center">
-                                <i data-feather="shopping-cart" class="w-4 h-4 mr-2"></i>
+                                class="flex-1 sm:flex-none text-center bg-green-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full hover:bg-green-600 transition-colors text-xs sm:text-sm flex items-center justify-center">
+                                <i data-feather="shopping-cart" class="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2"></i>
                                 Comprar
                             </a>
                         </div>
@@ -213,6 +273,7 @@
                 </div>
             </div>
             {% endfor %}
+        </div>
     </main>
 </div>
 {% endblock %}
@@ -240,6 +301,24 @@
             icon.style.transform = items.classList.contains('expanded') ? 'rotate(180deg)' : '';
         });
     });
+    function countChars(paragraph) {
+        string = paragraph.textContent
+    }
+    function filterProducts() {
+        const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+        const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+
+        const products = document.querySelectorAll('.product-card');
+
+        products.forEach(product => {
+            const price = parseFloat(product.getAttribute('data-price'));
+            if (price >= minPrice && price <= maxPrice) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
     function redirectToDetails(button) {
         var productId = button.getAttribute('data-id');
         window.location.href = 'detalles/' + productId;
