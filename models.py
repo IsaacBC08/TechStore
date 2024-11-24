@@ -1,9 +1,12 @@
 class Producto:
-    def __init__(self,id, nombre, imagen, precio, descripcion):
+    def __init__(self,id, nombre, imagen, precio, descripcion,categoria, estado, descuento):
         self.id = id
         self.nombre = nombre
         self.precio = precio
         self.descripcion = descripcion
+        self.categoria = categoria
+        self.estado = estado
+        self.descuento = descuento if descuento else 0
         self.imagen = imagen
 
     @classmethod
@@ -14,5 +17,8 @@ class Producto:
             nombre=fila['Nombre_Producto'],
             precio=fila['Precio'],
             descripcion=fila['Descripcion'],
+            categoria=fila['Categoría'],
+            estado=fila['Estado'],
+            descuento= fila['Descuento'],
             imagen=fila['Imagen']
         )

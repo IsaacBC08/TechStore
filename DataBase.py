@@ -48,3 +48,34 @@ class Base_De_Datos:
             self.connection.close()
             print("Conexión cerrada exitosamente")
 
+    def get_categories(self) -> list[dict]:
+        """Retorna las categorías actuales de la DB"""
+        conexion = self.iniciar_conexion()
+        cursor = conexion.cursor(dictionary=True)
+        cursor.execute('SELECT DISTINCT Categoría FROM Productos')
+        categories = cursor.fetchall()
+        cursor.close()
+        self.cerrar_conexion()
+        return categories
+    
+    def get_products(self, limit: int = 0, id=0, category=0) -> list[dict]:
+     """Retorna los productos"""
+     conexion = self.iniciar_conexion()
+     cursor = conexion.cursor(dictionary=True)
+     query = 'SELECT * FROM Productos'
+     conditions = []
+     
+     if id:
+         conditions.append(f"Id_Producto = {id}")
+     if category:
+         conditions.append(f"Categoría = '{category}'")
+     if conditions:
+         query += " WHERE " + " AND ".join(conditions)  # Combina las condiciones con AND
+     
+     if limit:
+         query += f' LIMIT {limit}'
+     
+     cursor.execute(query)
+     products = cursor.fetchall()
+     self.cerrar_conexion()
+     return products

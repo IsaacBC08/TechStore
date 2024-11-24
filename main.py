@@ -1,14 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, current_app, jsonify
-import requests
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
 from uuid import uuid4
 from DataBase import Base_De_Datos
 from models import Producto
-import threading
 from dotenv import load_dotenv
-semaforo = threading.Semaphore(1)
+
 app = Flask(__name__)
 db = Base_De_Datos()
 load_dotenv()
@@ -28,31 +26,27 @@ def get_unique_filename(filename):
     ext = filename.rsplit('.', 1)[1].lower()
     return f"{uuid4().hex}_{int(datetime.now().timestamp())}.{ext}"
 
+
 @app.route('/')
 def index():
-    response = requests.get('https://api.ipify.org')
-    ip_address = response.text
-    print(ip_address)
-    # Conectar a la base de datos
-    conexion = db.iniciar_conexion()
-    cursor = conexion.cursor(dictionary=True)
-    cursor.execute("SELECT Id_Producto, Nombre_Producto, Descripcion, Precio, Imagen FROM Productos LIMIT 3")
-    productos_data = cursor.fetchall()
+    productos_data = db.get_products(limit=3) # solo queremos 3 productos
     productos = [Producto.crear_desde_registro(fila) for fila in productos_data]
-    cursor.close()
-    db.cerrar_conexion()
     return render_template('index.html', productos=productos)
 
 @app.route('/productos')
 def productos():
-    conexion = db.iniciar_conexion()
-    cursor = conexion.cursor(dictionary=True)
-    cursor.execute("SELECT Id_Producto, Nombre_Producto, Descripcion, Precio, Imagen FROM Productos")
-    productos_data = cursor.fetchall()
+    productos_data = db.get_products()
+    categorias = db.get_categories()
     productos = [Producto.crear_desde_registro(fila) for fila in productos_data]
-    cursor.close()
     db.cerrar_conexion()
-    return render_template('productos.html', productos=productos)
+    return render_template('productos.html', productos=productos,categorias=categorias)
+@app.route('/detalles/<int:id>')
+def detalles(id):
+    producto = db.get_products(id=id)
+    producto = Producto.crear_desde_registro(producto[0])
+    relacionados = db.get_products(category=producto.categoria, limit=3)
+    relacionados = [Producto.crear_desde_registro(fila) for fila in relacionados]
+    return render_template('detalles.html', producto = producto, relacionados = relacionados)
 
 @app.route('/agregar_producto', methods=['GET', 'POST'])
 def agregar_producto():
@@ -103,10 +97,9 @@ def agregar_producto():
 
         except Exception as e:
             flash(f'Error al agregar producto: {str(e)}', 'error')
-            return redirect(request.url)
-
+    
     return render_template('Add_Product.html')
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
