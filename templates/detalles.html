@@ -102,7 +102,7 @@
             <h2 class="text-2xl font-bold text-gray-900 mb-8">Productos relacionados</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for producto in relacionados %}
-                <div class="product-card bg-white rounded-xl overflow-hidden cursor-pointer" data-id="{{ producto['id'] }}"
+                <div class="product-card bg-white rounded-xl overflow-hidden cursor-pointer" data-id="{{ url_for('detalles', id=producto['id']) }}"
                     onclick="redirectToDetails(this)">
                     <div class="relative h-48">
                         <img src="../{{ producto['imagen'] }}" alt="Producto relacionado 2"
@@ -147,8 +147,8 @@
     // Inicializar los iconos Feather
     feather.replace();
     function redirectToDetails(button) {
-        var productId = button.getAttribute('data-id');
-        window.location.href = 'detalles/' + productId;
+        var redirection = button.getAttribute('data-id');
+        window.location.href = redirection
     }
 </script>
 {% endblock %}
