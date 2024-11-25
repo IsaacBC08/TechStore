@@ -58,7 +58,7 @@ class Base_De_Datos:
         self.cerrar_conexion()
         return categories
     
-    def get_products(self, limit: int = 0, id=0, category: int =0, exclude:int =0) -> list[dict]:
+    def get_products(self, limit: int = 0, id=0, category: int =0, exclude:int =0, type:str=0) -> list[dict]:
         """Retorna los productos"""
         conexion = self.iniciar_conexion()
         cursor = conexion.cursor(dictionary=True)
@@ -68,6 +68,8 @@ class Base_De_Datos:
             conditions.append(f"Id_Producto = {id}")
         if category:
             conditions.append(f"Categoría = '{category}'")
+        if type:
+            conditions.append(f"Tipo = '{type}'")
         if exclude:
             conditions.append(f"Id_Producto != {exclude}")
         if conditions:

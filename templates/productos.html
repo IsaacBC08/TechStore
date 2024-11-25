@@ -225,7 +225,7 @@
             <div class="product-card bg-white rounded-xl overflow-hidden h-[28rem] sm:h-[32rem] cursor-pointer shadow-sm hover:shadow-md transition-shadow"
                 data-id="{{ producto['id'] }}" data-price="{{ producto['precio'] }}" onclick="redirectToDetails(this)">
                 <div class="relative h-36 sm:h-48">
-                    <img src="{{ producto['imagen'] }}" alt="{{ producto['nombre'] }}"
+                    <img src="../{{ producto['imagen'] }}" alt="{{ producto['nombre'] }}"
                         class="w-full h-full object-cover" />
                     <div class="absolute top-2 sm:top-4 right-2 sm:right-4">
                         {% if producto['estado'] == 'Nuevo' %}
@@ -319,9 +319,11 @@
             }
         });
     }
+    
+    // Funcionalidad para redirigir
     function redirectToDetails(button) {
         var productId = button.getAttribute('data-id');
-        window.location.href = 'detalles/' + productId;
+        window.location.href = '/detalles/' + productId;
     }
     // Funcionalidad de búsqueda
     function setupSearch(searchInput) {

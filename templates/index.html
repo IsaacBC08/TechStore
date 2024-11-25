@@ -9,18 +9,89 @@
     * {
         font-family: "Inter", sans-serif;
     }
-
+    body{
+        scrollbar-width: 0;
+    }
+    body::-webkit-scrollbar{
+        display: none;
+    }
     .gradient-text {
         background: linear-gradient(45deg, #007bff, #00f2fe);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
     }
+
+    .category-content {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: top;
+        transform: scaleY(0);
+    }
+
+    .category-content.active {
+        max-height: 500px;
+        opacity: 1;
+        transform: scaleY(1);
+    }
+
+    .category-icon {
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .category-header.active .category-icon {
+        transform: rotate(180deg);
+    }
+
+    .category-header {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .category-header::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(45deg, #007bff, #00f2fe);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .category-header:hover::before,
+    .category-header.active::before {
+        opacity: 1;
+    }
+
+    .category-item {
+        padding: 0.75rem 1rem;
+        margin: 0.25rem 0;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .category-item:hover {
+        background-color: #f3f4f6;
+        transform: translateX(8px);
+    }
+
+    .category-icon-wrapper {
+        width: 2rem;
+        height: 2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75rem;
+        border-radius: 0.5rem;
+        background: linear-gradient(45deg, #007bff20, #00f2fe20);
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<br>
 <br>
 <br>
 <!-- Hero Section -->
@@ -36,7 +107,7 @@
                 </p>
                 <a href="/productos"
                     class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all inline-flex items-center">
-                    <span>Ver Productos</span>
+                    <span>Explorar Productos</span>
                     <i data-feather="arrow-right" class="w-5 h-5 ml-2"></i>
                 </a>
             </div>
@@ -47,7 +118,160 @@
         </div>
     </div>
 </section>
-<hr class="w-128 h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700">
+
+<!-- Catalogue Section -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto">
+            <!-- Smart Home -->
+            <div class="border-b border-gray-200">
+                <button class="category-header w-full py-4 px-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center">
+                        <div class="category-icon-wrapper">
+                            <i data-feather="home" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900">Hogar Inteligente</span>
+                    </div>
+                    <svg class="category-icon w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="category-content">
+                    <div class="py-3 px-4 space-y-2">
+                        <a href="/productos/Bombillas LED Smart" class="category-item block text-gray-600 hover:text-blue-600">Bombillas LED Smart</a>
+                        <a href="/productos/Tiras LED" class="category-item block text-gray-600 hover:text-blue-600">Tiras LED</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seguridad -->
+            <div class="border-b border-gray-200">
+                <button class="category-header w-full py-4 px-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center">
+                        <div class="category-icon-wrapper">
+                            <i data-feather="shield" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900">Seguridad</span>
+                    </div>
+                    <svg class="category-icon w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="category-content">
+                    <div class="py-3 px-4 space-y-2">
+                        <a href="productos/Camaras" class="category-item block text-gray-600 hover:text-blue-600">Cámaras</a>
+                        <a href="productos/Sensores" class="category-item block text-gray-600 hover:text-blue-600">Sensores</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control de Ambiente -->
+            <div class="border-b border-gray-200">
+                <button class="category-header w-full py-4 px-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center">
+                        <div class="category-icon-wrapper">
+                            <i data-feather="thermometer" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900">Control de Ambiente</span>
+                    </div>
+                    <svg class="category-icon w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="category-content">
+                    <div class="py-3 px-4 space-y-2">
+                        <a href="productos/Humidificadores" class="category-item block text-gray-600 hover:text-blue-600">Humidificadores</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gaming -->
+            <div class="border-b border-gray-200">
+                <button class="category-header w-full py-4 px-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center">
+                        <div class="category-icon-wrapper">
+                            <i data-feather="play" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900">Gaming</span>
+                    </div>
+                    <svg class="category-icon w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="category-content">
+                    <div class="py-3 px-4 space-y-2">
+                        <a href="productos/Ratones" class="category-item block text-gray-600 hover:text-blue-600">Ratones</a>
+                        <a href="productos/Teclados" class="category-item block text-gray-600 hover:text-blue-600">Teclados</a>
+                        <a href="productos/Audifonos" class="category-item block text-gray-600 hover:text-blue-600">Audífonos</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Periféricos -->
+            <div class="border-b border-gray-200">
+                <button class="category-header w-full py-4 px-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center">
+                        <div class="category-icon-wrapper">
+                            <i data-feather="hard-drive" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900">Periféricos</span>
+                    </div>
+                    <svg class="category-icon w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="category-content">
+                    <div class="py-3 px-4 space-y-2">
+                        <a href="productos/Adaptadores" class="category-item block text-gray-600 hover:text-blue-600">Adaptadores</a>
+                        <a href="productos/Extensiones" class="category-item block text-gray-600 hover:text-blue-600">Extensiones</a>
+                        <a href="productos/Auxiliares" class="category-item block text-gray-600 hover:text-blue-600">Auxiliares</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Almacenamiento -->
+            <div class="border-b border-gray-200">
+                <button class="category-header w-full py-4 px-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center">
+                        <div class="category-icon-wrapper">
+                            <i data-feather="database" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900">Almacenamiento</span>
+                    </div>
+                    <svg class="category-icon w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="category-content">
+                    <div class="py-3 px-4 space-y-2">
+                        <a href="productos/USB" class="category-item block text-gray-600 hover:text-blue-600">USB</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decoración -->
+            <div class="border-b border-gray-200">
+                <button class="category-header w-full py-4 px-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center">
+                        <div class="category-icon-wrapper">
+                            <i data-feather="layers" class="w-4 h-4 text-blue-600"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-gray-900">Decoración</span>
+                    </div>
+                    <svg class="category-icon w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="category-content">
+                    <div class="py-3 px-4 space-y-2">
+                        <a href="/productos/Accesorios" class="category-item block text-gray-600 hover:text-blue-600">Accesorios</a>
+                        <a href="/productos/Escritorio" class="category-item block text-gray-600 hover:text-blue-600">Escritorio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Features Section -->
 <section class="py-12 bg-white">
@@ -142,8 +366,37 @@
         </div>
     </div>
 </footer>
+
 {% endblock %}
 
 {% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const categoryHeaders = document.querySelectorAll('.category-header');
+
+    categoryHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const wasActive = header.classList.contains('active');
+            
+            // Cerrar todas las categorías
+            categoryHeaders.forEach(otherHeader => {
+                otherHeader.classList.remove('active');
+                otherHeader.nextElementSibling.classList.remove('active');
+            });
+
+            // Si el header clickeado no estaba activo, abrirlo
+            if (!wasActive) {
+                header.classList.add('active');
+                header.nextElementSibling.classList.add('active');
+            }
+        });
+    });
+
+    // Inicializar los íconos de Feather
+    if (typeof feather !== 'undefined') {
+        feather.replace();
+    }
+});
+</script>
 
 {% endblock %}

@@ -33,12 +33,18 @@ def index():
     productos = [Producto.crear_desde_registro(fila) for fila in productos_data]
     return render_template('index.html', productos=productos)
 
-@app.route('/productos')
-def productos():
-    productos_data = db.get_products()
+@app.route('/productos/')
+@app.route('/productos/<string:tipo>')
+def productos(tipo=None):
+    if tipo:
+        productos_data = db.get_products(type=tipo)
+    else:
+        productos_data = db.get_products()  # Asumiendo que sin parámetro retorna todos
+        
     categorias = db.get_categories()
     productos = [Producto.crear_desde_registro(fila) for fila in productos_data]
     db.cerrar_conexion()
+    
     return render_template('productos.html', productos=productos,categorias=categorias)
 
 @app.route('/detalles/<int:id>')

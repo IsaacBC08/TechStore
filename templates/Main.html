@@ -9,8 +9,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+    <style>
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease-out, opacity 0.2s ease-out;
+            opacity: 0;
+        }
+
+        .mobile-menu.active {
+            max-height: 200px; /* Ajusta este valor según el contenido de tu menú */
+            opacity: 1;
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background-color: rgba(249, 250, 251, 0.8);
+        }
+    </style>
     {% block styles %}
-    
     {% endblock %}
 </head>
 
@@ -38,7 +55,7 @@
                 </button>
             </div>
 
-            <div class="hidden md:hidden mt-4" id="mobile-menu">
+            <div class="mobile-menu md:hidden mt-4" id="mobile-menu">
                 <div class="flex flex-col space-y-4">
                     <a href="/" class="text-gray-700 hover:text-blue-600">Inicio</a>
                     <a href="/productos" class="text-blue-600">Productos</a>
@@ -65,19 +82,16 @@
                 once: true,
                 offset: 100,
             });
-    
-            // Resto del código JavaScript existente...
-        });
-        feather.replace();
-    
-        document.addEventListener('DOMContentLoaded', function () {
+
+            feather.replace();
+
             const mobileMenuButton = document.querySelector('[data-collapse-toggle="mobile-menu"]');
             const mobileMenu = document.getElementById('mobile-menu');
-    
+
             mobileMenuButton.addEventListener('click', function () {
-                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('active');
             });
-    
+
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
