@@ -50,30 +50,18 @@ def admin():
     tipos = db.get_types()
     return render_template('Management.html', productos=productos_data,categorias=categorias, tipos=tipos)
 
-@app.route('/detalles/<int:id>')
-def detalles(id):
-    producto = db.get_conditional_products(id=id)[0]
-    print(producto)
-    relacionados = db.get_conditional_products(category=producto.categoria, limit=3, exclude=id)
-    return render_template('detalles.html', producto = producto, relacionados = relacionados)
-
 @app.route('/agregar_producto', methods=['GET', 'POST'])
 def agregar_producto():
-    if request.method == 'POST':
-        try:
-            # Obtener datos del formulario
-            nombre = request.form['Nombre_Producto']
-            precio = request.form['Precio']
-            descripcion = request.form['Descripcion']
-            categoria = request.form['Categoria']
-            estado = request.form['Estado']
+    try:
+        if request.method == 'POST':
+            nombre = request.form.get('nombre')
+            descripcion = request.form.get('descripcion')
+            precio = request.form.get('precio')
+            categoria = request.form.get('categoria')
+            tipo = request.form.get('tipo')
+            estado = request.form.get('estado')
+            descuento = request.form.get('descuento')
             imagen = request.files.get('Imagen')
-            
-            # Validaciones
-
-            if not imagen or not allowed_file(imagen.filename):
-                flash('Formato de imagen no permitido', 'error')
-                return redirect(request.url)
 
             imagen.seek(0)
             if len(imagen.read()) > Config.MAX_IMAGE_SIZE:
@@ -92,10 +80,23 @@ def agregar_producto():
             # Insertar en la base de datos
             conexion = db.iniciar_conexion()
             try:
-                query = """INSERT INTO Productos (Nombre_Producto, Descripcion, Precio, Imagen,Categoria, Estado) 
-                           VALUES (%s, %s, %s, %s)"""
-                conexion.cursor().execute(query, (nombre, descripcion, precio, imagen_url, categoria, estado))
+                query = """
+                INSERT INTO Productos (
+                    Nombre_Producto,
+                    Descripcion,
+                    Precio,
+                    Id_Categoria,
+                    Id_Tipo,
+                    Estado,
+                    Descuento,
+                    Imagen
+                ) VALUES (
+                    %s, %s, %s, %s, %s, %s, %s, %s
+                );
+                """
+                conexion.cursor().execute(query, (nombre, descripcion, precio, categoria, tipo, estado, descuento, imagen_url))
                 conexion.commit()
+                db.products_data = db.get_products_from_db()
                 flash('Producto agregado exitosamente', 'success')
             except Exception as e:
                 if os.path.exists(imagen_path):
@@ -104,12 +105,16 @@ def agregar_producto():
             finally:
                 conexion.close()
 
-            return redirect(url_for('index'))
+    except Exception as e:
+        flash(f'Error al agregar producto: {str(e)}', 'error')
+    return redirect(url_for('admin'))
 
-        except Exception as e:
-            flash(f'Error al agregar producto: {str(e)}', 'error')
-    
-    return render_template('Add_Product.html')
+@app.route('/detalles/<int:id>')
+def detalles(id):
+    producto = db.get_conditional_products(id=id)[0]
+    print(producto)
+    relacionados = db.get_conditional_products(category=producto.categoria, limit=3, exclude=id)
+    return render_template('detalles.html', producto = producto, relacionados = relacionados)
 
 
 if __name__ == "__main__":

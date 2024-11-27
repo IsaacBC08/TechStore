@@ -57,7 +57,6 @@ class Base_De_Datos:
         cursor.execute('SELECT * FROM Categorias')
         categories = cursor.fetchall()
         cursor.close()
-        print(categories)
         categories = [Categoria.crear_desde_registro(fila) for fila in categories]
         self.cerrar_conexion()
         return categories
