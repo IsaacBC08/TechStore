@@ -10,6 +10,9 @@ class Producto:
         self.descuento = descuento if descuento else 0
         self.imagen = imagen
 
+    def __iter__(self):
+        for attr, value in self.__dict__.items():
+            yield attr, value
     @classmethod
     def crear_desde_registro(cls, fila):
         """Crea un objeto Producto desde un registro de la base de datos."""
@@ -23,4 +26,35 @@ class Producto:
             descuento= fila['Descuento'],
             imagen=fila['Imagen'],
             tipo=fila['Tipo']
+        )
+
+class Categoria:
+    def __init__(self, id, nombre):
+        self.id = id
+        self.nombre = nombre
+    
+    @classmethod
+    def crear_desde_registro(cls, fila):
+        """Crea un objeto Categoría desde un registro de la base de datos."""
+        return cls(
+            id= fila['Id_Categoria'],
+            nombre = fila['Nombre_Categoria']
+            
+        )
+
+class Tipo:
+    def __init__(self, id, nombre,categoria_id, categoria):
+        self.id = id
+        self.nombre = nombre
+        self.categoria = categoria
+        self.categoria_id = categoria_id
+    
+    @classmethod
+    def crear_desde_registro(cls, fila):
+        """Crea un objeto Categoría desde un registro de la base de datos."""
+        return cls(
+            id= fila['Id_Categoria'],
+            nombre = fila['Nombre_Tipo'],
+            categoria_id = fila['Id_Categoria'],
+            categoria= fila['categoria']
         )

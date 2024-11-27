@@ -138,7 +138,7 @@
                 </button>
                 <div class="category-content">
                     <div class="py-3 px-4 space-y-2">
-                        <a href="/productos/Bombillas LED Smart" class="category-item block text-gray-600 hover:text-blue-600">Bombillas LED Smart</a>
+                        <a href="/productos/Bombillas LED" class="category-item block text-gray-600 hover:text-blue-600">Bombillas LED</a>
                         <a href="/productos/Tiras LED" class="category-item block text-gray-600 hover:text-blue-600">Tiras LED</a>
                     </div>
                 </div>
@@ -200,9 +200,9 @@
                 </button>
                 <div class="category-content">
                     <div class="py-3 px-4 space-y-2">
-                        <a href="productos/Ratones" class="category-item block text-gray-600 hover:text-blue-600">Ratones</a>
+                        <a href="productos/Mouses" class="category-item block text-gray-600 hover:text-blue-600">Mouses</a>
                         <a href="productos/Teclados" class="category-item block text-gray-600 hover:text-blue-600">Teclados</a>
-                        <a href="productos/Audifonos" class="category-item block text-gray-600 hover:text-blue-600">Audífonos</a>
+                        <a href="productos/Audífonos" class="category-item block text-gray-600 hover:text-blue-600">Audífonos</a>
                     </div>
                 </div>
             </div>
@@ -370,33 +370,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const categoryHeaders = document.querySelectorAll('.category-header');
-
-    categoryHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            const wasActive = header.classList.contains('active');
-            
-            // Cerrar todas las categorías
-            categoryHeaders.forEach(otherHeader => {
-                otherHeader.classList.remove('active');
-                otherHeader.nextElementSibling.classList.remove('active');
-            });
-
-            // Si el header clickeado no estaba activo, abrirlo
-            if (!wasActive) {
-                header.classList.add('active');
-                header.nextElementSibling.classList.add('active');
-            }
-        });
-    });
-
-    // Inicializar los íconos de Feather
-    if (typeof feather !== 'undefined') {
-        feather.replace();
-    }
-});
-</script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 
 {% endblock %}

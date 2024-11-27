@@ -29,30 +29,32 @@ def get_unique_filename(filename):
 
 @app.route('/')
 def index():
-    productos_data = db.get_products(limit=3) # solo queremos 3 productos
-    productos = [Producto.crear_desde_registro(fila) for fila in productos_data]
-    return render_template('index.html', productos=productos)
+    return render_template('index.html')
 
 @app.route('/productos/')
 @app.route('/productos/<string:tipo>')
 def productos(tipo=None):
     if tipo:
-        productos_data = db.get_products(type=tipo)
+        productos_data = db.get_conditional_products(type=tipo)
     else:
-        productos_data = db.get_products()  # Asumiendo que sin parámetro retorna todos
-        
+        productos_data = db.get_conditional_products()
     categorias = db.get_categories()
-    productos = [Producto.crear_desde_registro(fila) for fila in productos_data]
-    db.cerrar_conexion()
     
-    return render_template('productos.html', productos=productos,categorias=categorias)
+    return render_template('productos.html', productos=productos_data,categorias=categorias)
+
+
+@app.route('/admin')
+def admin():
+    productos_data = db.get_conditional_products()
+    categorias = db.get_categories()
+    tipos = db.get_types()
+    return render_template('Management.html', productos=productos_data,categorias=categorias, tipos=tipos)
 
 @app.route('/detalles/<int:id>')
 def detalles(id):
-    producto = db.get_products(id=id)
-    producto = Producto.crear_desde_registro(producto[0])
-    relacionados = db.get_products(category=producto.categoria, limit=3, exclude=id)
-    relacionados = [Producto.crear_desde_registro(fila) for fila in relacionados]
+    producto = db.get_conditional_products(id=id)[0]
+    print(producto)
+    relacionados = db.get_conditional_products(category=producto.categoria, limit=3, exclude=id)
     return render_template('detalles.html', producto = producto, relacionados = relacionados)
 
 @app.route('/agregar_producto', methods=['GET', 'POST'])

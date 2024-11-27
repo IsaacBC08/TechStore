@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex min-h-screen">
+    <!-- Panel Izquierdo -->
+    <div class="w-52 bg-white shadow-md h-full min-h-screen sticky top-0">
+        <div class="p-5 ">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Panel de Control</h2>
+            <nav>
+                <ul>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center p-3 text-gray-700 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            </svg>
+                            Productos
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                            </svg>
+                            Categorías
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="flex items-center p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                            </svg>
+                            Tipos
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="flex-1 p-8 overflow-x-auto">
+        <div class="max-w-full overflow-x-auto bg-white rounded-lg shadow-lg">
+            <table class="w-full">
+                <thead class="bg-indigo-50 border-b-2 border-indigo-200">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Nombre</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Código</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Categoría</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Tipo</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Descripción</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Precio</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Estado</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Descuento</th>
+                        <th
+                            class="px-4 py-3 text-center text-xs font-semibold text-indigo-700 uppercase tracking-wider">
+                            Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for producto in productos %}
+                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="px-4 py-4">
+                            <div class="font-medium text-gray-900">{{ producto['nombre'] }}</div>
+                        </td>
+                        <td class="px-4 py-4 text-sm text-gray-600">TS-#{{ producto['id'] }}</td>
+                        <td class="px-4 py-4">
+                            <span class="px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
+                                {{ producto['categoria'] }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-4 text-sm text-gray-600">{{ producto['tipo'] }}</td>
+                        <td class="px-4 py-4 text-sm text-gray-500">
+                            {{ producto['descripcion']|replace(producto['descripcion'][20:], "...") }}
+                        </td>
+                        <td class="px-4 py-4 font-semibold text-gray-900">₡{{ producto['precio'] }}</td>
+                        <td class="px-4 py-4">
+                            <span class="px-2 py-1 text-xs font-medium 
+                                {% if producto['estado'] == 'Activo' %}text-green-800 bg-green-100
+                                {% else %}text-red-800 bg-red-100{% endif %} 
+                                rounded-full">
+                                {{ producto['estado'] }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-4 text-sm font-medium text-yellow-700">
+                            {{ producto['descuento'] }}%
+                        </td>
+                        <td class="px-4 py-4 flex justify-center space-x-2">
+                            <button
+                                class="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-full transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                </svg>
+                            </button>
+                            <button
+                                class="text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded-full transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                    </path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- Botón Flotante -->
+            <button
+                class="openModalBtn fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="w-6 h-6">
+                    <path d="M12 5v14M5 12h14"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- El modal -->
+    <div id="myModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+        <form action="/crear_producto" method="POST" class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-6">Crear Producto</h2>
+
+            <!-- Nombre del Producto -->
+            <div class="mb-4">
+                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre del Producto</label>
+                <input type="text" id="nombre" name="nombre" required class="mt-1 p-2 w-full border rounded">
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-4">
+                <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                <textarea id="descripcion" name="descripcion" required
+                    class="mt-1 p-2 w-full border rounded"></textarea>
+            </div>
+
+            <!-- Precio -->
+            <div class="mb-4">
+                <label for="precio" class="block text-sm font-medium text-gray-700">Precio</label>
+                <input type="number" id="precio" name="precio" required class="mt-1 p-2 w-full border rounded">
+            </div>
+
+            <!-- Categoría -->
+            <div class="mb-4">
+                <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
+                <select id="categoria" name="categoria" required class="mt-1 p-2 w-full border rounded">
+                    <option value="" disabled selected>Seleccione una categoría</option>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Subcategoría -->
+            <div class="mb-4" id="subcategoria-container">
+                <label for="tipo" class="block text-sm font-medium text-gray-700">Subcategoría</label>
+                <select id="tipo" name="tipo" required class="mt-1 p-2 w-full border rounded">
+                    <option value="" disabled selected>Seleccione una subcategoría</option>
+                    {% for tipo in tipos %}
+                    <option value="{{ tipo.id }}" class="tipo-option hidden" data-categoria="{{ tipo.categoria_id }}">
+                        {{ tipo.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Estado -->
+            <div class="mb-4">
+                <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
+                <select id="estado" name="estado" required class="mt-1 p-2 w-full border rounded">
+                    <option value="Nuevo">Nuevo</option>
+                    <option value="Descuento">Descuento</option>
+                    <option value="Recomendado">Recomendado</option>
+                    <option value="Popular">Popular</option>
+                </select>
+            </div>
+
+            <!-- Descuento -->
+            <div class="mb-4">
+                <label for="descuento" class="block text-sm font-medium text-gray-700">Descuento (%)</label>
+                <input type="number" id="descuento" name="descuento" min="0" max="100"
+                    class="mt-1 p-2 w-full border rounded">
+            </div>
+
+            <!-- Imagen -->
+            <div class="mb-4">
+                <label for="imagen" class="block text-sm font-medium text-gray-700">Imagen URL</label>
+                <input type="text" id="imagen" name="imagen" required class="mt-1 p-2 w-full border rounded">
+            </div>
+
+            <!-- Enviar -->
+            <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700">Crear
+                Producto</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/management.js') }}"></script>
+
+</body>
+
+</html>
