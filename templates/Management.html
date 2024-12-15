@@ -5,391 +5,268 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Panel de Administración</title>
 </head>
 
-<body class="bg-gradient-to-br from-slate-100 to-slate-200 flex min-h-screen">
-    <!-- Notificaciones Flash -->
-    <div id="flash-notifications" class="fixed top-4 right-4 z-50 space-y-2">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            <div class="bg-{{ 'green' if category == 'success' else 'red' }}-100 border-l-4 border-{{ 'green' if category == 'success' else 'red' }}-500 p-4 rounded-r shadow-md transition-all duration-300 transform hover:scale-105">
-                <p class="text-{{ 'green' if category == 'success' else 'red' }}-800">{{ message }}</p>
-            </div>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
-    </div>
+<body class="flex">
+    <!-- Aside Fijo -->
+    <aside class="bg-gray-100 w-64 h-full p-4 shadow-md sticky top-0">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Administración</h2>
+        <nav>
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" onclick="showSection('productos')"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 rounded-md transition duration-300">
+                        Productos
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('categorias')"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 rounded-md transition duration-300">
+                        Categorías
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('tipos')"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 rounded-md transition duration-300">
+                        Tipos
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('usuarios')"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 rounded-md transition duration-300">
+                        Usuarios
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('estadisticas')"
+                        class="block px-4 py-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 rounded-md transition duration-300">
+                        Estadísticas
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <!-- Secciones -->
+    <div id="productos" class="section">
+        <h1 class="text-3xl font-bold mb-4 text-center">Productos</h1>
 
-    <!-- Panel Izquierdo -->
-    <div class="w-52 bg-slate-800 shadow-md h-full min-h-screen sticky top-0">
-        <div class="p-5 ">
-            <h2 class="text-2xl font-bold text-slate-100 mb-6">Panel de Control</h2>
-            <nav>
-                <ul>
-                    <li class="mb-2">
-                        <a href="#"
-                            class="flex items-center p-3 text-slate-300 hover:bg-slate-700 rounded-lg transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                            </svg>
-                            Productos
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#"
-                            class="flex items-center p-3 text-slate-300 hover:bg-slate-700 rounded-lg transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                            </svg>
-                            Categorías
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="flex items-center p-3 text-slate-300 hover:bg-slate-700 rounded-lg transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                            </svg>
-                            Tipos
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <div class="flex-1 p-8 overflow-x-auto">
+            <div class="max-w-full overflow-x-auto bg-white rounded-lg shadow-lg">
+                <table class="w-full">
+                    <thead class="bg-slate-100 border-b-2 border-slate-200">
+                        <tr>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Nombre</th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Código</th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Categoría</th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Tipo</th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Descripción</th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Precio</th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Estado</th>
+                            <th
+                                class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Descuento</th>
+                            <th
+                                class="px-4 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for producto in productos %}
+                        <tr class="hover:bg-gray-50 transition-colors duration-200" data-id="{{ producto['id'] }}"
+                            data-nombre="{{ producto['nombre'] }}" data-categoria="{{ producto['categoria'] }}"
+                            data-tipo="{{ producto['tipo'] }}" data-descripcion="{{ producto['descripcion'] }}"
+                            data-precio="{{ producto['precio'] }}" data-estado="{{ producto['estado'] }}"
+                            data-descuento="{{ producto['descuento'] }}">
+                            <td class="px-4 py-4">
+                                <div class="font-medium text-gray-900">{{ producto['nombre'] }}</div>
+                            </td>
+                            <td class="px-4 py-4 text-sm text-gray-600">TS-#{{ producto['id'] }}</td>
+                            <td class="px-4 py-4">
+                                <span class="px-2 py-1 text-xs font-medium text-teal-800 bg-teal-100 rounded-full">
+                                    {{ producto['categoria'] }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 text-sm text-gray-600">{{ producto['tipo'] }}</td>
+                            <td class="px-4 py-4 text-sm text-gray-500">
+                                {{ producto['descripcion']|replace(producto['descripcion'][20:], "...") }}
+                            </td>
+                            <td class="px-4 py-4 font-semibold text-gray-900">₡{{ producto['precio'] }}</td>
+                            <td class="px-4 py-4">
+                                <span class="px-2 py-1 text-xs font-medium 
+                                        {% if producto['estado'] == 'Activo' %}text-green-800 bg-green-100
+                                        {% else %}text-red-800 bg-red-100{% endif %} 
+                                        rounded-full">
+                                    {{ producto['estado'] }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-amber-700">
+                                {{ producto['descuento'] }}%
+                            </td>
+                            <td class="px-4 py-4 flex justify-center space-x-2">
+                                <button
+                                    class="text-teal-600 hover:text-teal-800 hover:bg-teal-50 p-2 rounded-full transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <button
+                                    class="text-rose-600 hover:text-rose-800 hover:bg-rose-50 p-2 rounded-full transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path
+                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                        </path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- Botón Flotante -->
+                <button id="openModalBtn"
+                    class="openModalBtn fixed bottom-6 right-6 bg-teal-600 text-white p-4 rounded-full shadow-lg hover:bg-teal-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="w-6 h-6">
+                        <path d="M12 5v14M5 12h14"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Contenido Principal -->
-    <div class="flex-1 p-8 overflow-x-auto">
-        <div class="max-w-full overflow-x-auto bg-white rounded-lg shadow-lg">
-            <table class="w-full">
-                <thead class="bg-slate-100 border-b-2 border-slate-200">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Nombre</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Código</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Categoría</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Tipo</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Descripción</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Precio</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Estado</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Descuento</th>
-                        <th
-                            class="px-4 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                            Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    {% for producto in productos %}
-                    <tr class="hover:bg-gray-50 transition-colors duration-200">
-                        <td class="px-4 py-4">
-                            <div class="font-medium text-gray-900">{{ producto['nombre'] }}</div>
-                        </td>
-                        <td class="px-4 py-4 text-sm text-gray-600">TS-#{{ producto['id'] }}</td>
-                        <td class="px-4 py-4">
-                            <span class="px-2 py-1 text-xs font-medium text-teal-800 bg-teal-100 rounded-full">
-                                {{ producto['categoria'] }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-4 text-sm text-gray-600">{{ producto['tipo'] }}</td>
-                        <td class="px-4 py-4 text-sm text-gray-500">
-                            {{ producto['descripcion']|replace(producto['descripcion'][20:], "...") }}
-                        </td>
-                        <td class="px-4 py-4 font-semibold text-gray-900">₡{{ producto['precio'] }}</td>
-                        <td class="px-4 py-4">
-                            <span class="px-2 py-1 text-xs font-medium 
-                                {% if producto['estado'] == 'Activo' %}text-green-800 bg-green-100
-                                {% else %}text-red-800 bg-red-100{% endif %} 
-                                rounded-full">
-                                {{ producto['estado'] }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-4 text-sm font-medium text-amber-700">
-                            {{ producto['descuento'] }}%
-                        </td>
-                        <td class="px-4 py-4 flex justify-center space-x-2">
-                            <button
-                                class="text-teal-600 hover:text-teal-800 hover:bg-teal-50 p-2 rounded-full transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                                </svg>
-                            </button>
-                            <button
-                                class="text-rose-600 hover:text-rose-800 hover:bg-rose-50 p-2 rounded-full transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path
-                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                    </path>
-                                    <line x1="10" y1="11" x2="10" y2="17"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17"></line>
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <!-- Botón Flotante -->
-            <button
-                class="openModalBtn fixed bottom-6 right-6 bg-teal-600 text-white p-4 rounded-full shadow-lg hover:bg-teal-700 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="w-6 h-6">
-                    <path d="M12 5v14M5 12h14"></path>
-                </svg>
-            </button>
+    <div id="categorias" class="section hidden">
+        <h1 class="text-3xl font-bold mb-4">Categorías</h1>
+        <p>Administra las categorías de tus productos.</p>
+        <div class="bg-white p-4 rounded shadow mt-4">
+            <h2 class="text-xl font-semibold">Lista de Categorías</h2>
+            <!-- Contenido de categorías -->
         </div>
     </div>
 
-    <!-- El modal -->
-    <div id="myModal" class="fixed inset-0 bg-slate-900 bg-opacity-50 flex justify-center items-center hidden overflow-y-auto">
-        <form action="{{ url_for('agregar_producto') }}" method="POST" class="bg-white p-6 rounded-lg shadow-md max-h-[90vh] overflow-y-auto w-full max-w-md" enctype="multipart/form-data">
-            <h2 class="text-2xl font-semibold mb-6 text-slate-800">Crear Producto</h2>
+    <div id="tipos" class="section hidden">
+        <h1 class="text-3xl font-bold mb-4">Tipos</h1>
+        <p>Gestiona los diferentes tipos de productos.</p>
+        <div class="bg-white p-4 rounded shadow mt-4">
+            <h2 class="text-xl font-semibold">Lista de Tipos</h2>
+            <!-- Contenido de tipos -->
+        </div>
+    </div>
 
-            <!-- Imagen Preview -->
-            <div id="image-preview" class="mb-4 hidden">
-                <img src="" alt="Vista previa de imagen" class="mx-auto max-h-32 rounded-lg object-cover">
-            </div>
+    <div id="usuarios" class="section hidden">
+        <h1 class="text-3xl font-bold mb-4">Usuarios</h1>
+        <p>Administración de usuarios del sistema.</p>
+        <div class="bg-white p-4 rounded shadow mt-4">
+            <h2 class="text-xl font-semibold">Lista de Usuarios</h2>
+            <!-- Contenido de usuarios -->
+        </div>
+    </div>
 
-            <!-- Nombre del Producto -->
-            <div class="mb-4">
-                <label for="nombre" class="block text-sm font-medium text-slate-700">Nombre del Producto</label>
-                <input type="text" id="nombre" name="nombre" required class="mt-1 p-2 w-full border rounded bg-slate-50 focus:ring-2 focus:ring-teal-500">
-            </div>
-
-            <!-- Descripción -->
-            <div class="mb-4">
-                <label for="descripcion" class="block text-sm font-medium text-slate-700">Descripción</label>
-                <textarea id="descripcion" name="descripcion" required
-                    class="mt-1 p-2 w-full border rounded bg-slate-50 focus:ring-2 focus:ring-teal-500"></textarea>
-            </div>
-
-            <!-- Precio -->
-            <div class="mb-4">
-                <label for="precio" class="block text-sm font-medium text-slate-700">Precio</label>
-                <input type="number" id="precio" name="precio" required class="mt-1 p-2 w-full border rounded bg-slate-50 focus:ring-2 focus:ring-teal-500">
-            </div>
-
-            <!-- Categoría -->
-            <div class="mb-4">
-                <label for="categoria" class="block text-sm font-medium text-slate-700">Categoría</label>
-                <select id="categoria" name="categoria" required class="mt-1 p-2 w-full border rounded bg-slate-50 focus:ring-2 focus:ring-teal-500">
-                    <option value="" disabled selected>Seleccione una categoría</option>
-                    {% for categoria in categorias %}
-                    <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- Subcategoría -->
-            <div class="mb-4" id="subcategoria-container">
-                <label for="tipo" class="block text-sm font-medium text-slate-700">Subcategoría</label>
-                <select id="tipo" name="tipo" required class="mt-1 p-2 w-full border rounded bg-slate-50 focus:ring-2 focus:ring-teal-500">
-                    <option value="" disabled selected>Seleccione una subcategoría</option>
-                    {% for tipo in tipos %}
-                    <option value="{{ tipo.id }}" class="tipo-option hidden" data-categoria="{{ tipo.categoria_id }}">
-                        {{ tipo.nombre }}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- Estado -->
-            <div class="mb-4">
-                <label for="estado" class="block text-sm font-medium text-slate-700">Estado</label>
-                <select id="estado" name="estado" required class="mt-1 p-2 w-full border rounded bg-slate-50 focus:ring-2 focus:ring-teal-500">
-                    <option value="Nuevo">Nuevo</option>
-                    <option value="Descuento">Descuento</option>
-                    <option value="Recomendado">Recomendado</option>
-                    <option value="Popular">Popular</option>
-                </select>
-            </div>
-
-            <!-- Descuento -->
-            <div class="mb-4">
-                <label for="descuento" class="block text-sm font-medium text-slate-700">Descuento (%)</label>
-                <input type="number" id="descuento" name="descuento" min="0" max="100"
-                    class="mt-1 p-2 w-full border rounded bg-slate-50 focus:ring-2 focus:ring-teal-500">
-            </div>
-
-            <!-- Imagen -->
-            <div>
-                <label for="Imagen" class="block text-sm font-medium text-slate-700 mb-2">
-                    Imagen del Producto
-                </label>
-                <div
-                    class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-lg hover:border-teal-500 transition-all">
-                    <div class="space-y-1 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <div class="flex text-sm text-slate-600">
-                            <label for="Imagen"
-                                class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none">
-                                <span>Seleccionar archivo</span>
-                                <input id="Imagen" name="Imagen" type="file" required accept="image/*" class="sr-only" onchange="previewImage(event)">
-                            </label>
-                            <p class="pl-1">o arrastrar y soltar</p>
-                        </div>
-                        <p class="text-xs text-slate-500">PNG, JPG, GIF hasta 10MB</p>
-                    </div>
+    <div id="estadisticas" class="section hidden">
+        <h1 class="text-3xl font-bold mb-4">Estadísticas</h1>
+        <p>Visualiza las estadísticas generales del sistema.</p>
+        <div class="bg-white p-4 rounded shadow mt-4">
+            <h2 class="text-xl font-semibold">Datos Estadísticos</h2>
+            <!-- Contenido de estadísticas -->
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="myModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center hidden">
+        <div class="bg-white p-8 rounded-lg w-96">
+            <h2 class="text-xl font-bold mb-4">Formulario</h2>
+            <form id="modalForm">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+                    <input type="text" id="name" name="name"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required>
                 </div>
-            </div>
-
-            <!-- Enviar -->
-            <button type="submit" class="w-full mt-4 bg-teal-600 text-white py-2 px-4 rounded hover:bg-teal-700 transition-colors">Crear Producto</button>
-        </form>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+                    <input type="email" id="email" name="email"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" id="closeModalBtn"
+                        class="px-4 py-2 bg-gray-500 text-white rounded mr-2">Cerrar</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Enviar</button>
+                </div>
+            </form>
+        </div>
     </div>
+    </main>
 
     <script>
-        // Image Preview
-        function previewImage(event) {
-            const input = event.target;
-            const preview = document.getElementById('image-preview');
-            const previewImg = preview.querySelector('img');
-            
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    previewImg.src = e.target.result;
-                    preview.classList.remove('hidden');
-                }
-                
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        // Obtener el botón de abrir y el modal
+        const openModalBtn = document.getElementById('openModalBtn');
+        const myModal = document.getElementById('myModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
 
-        // Modal Toggle
-        const modal = document.getElementById('myModal');
-        const openModalBtn = document.querySelector('.openModalBtn');
-        const closeModalBtn = document.querySelector('#myModal');
-
-        openModalBtn.addEventListener('click', () => {
-            modal.classList.remove('hidden');
+        // Función para abrir el modal
+        openModalBtn.addEventListener('click', function () {
+            myModal.classList.remove('hidden');
         });
 
-        // Close modal when clicking outside the form
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.classList.add('hidden');
+        // Función para cerrar el modal
+        closeModalBtn.addEventListener('click', function () {
+            myModal.classList.add('hidden');
+        });
+
+        // Si se hace clic fuera del modal, también lo cierra
+        window.addEventListener('click', function (event) {
+            if (event.target === myModal) {
+                myModal.classList.add('hidden');
             }
         });
 
-        // Dynamic Subcategory Selection
-        const categoriaSelect = document.getElementById('categoria');
-        const tipoSelect = document.getElementById('tipo');
-        const tipoOptions = document.querySelectorAll('.tipo-option');
-
-        categoriaSelect.addEventListener('change', () => {
-            const selectedCategoriaId = categoriaSelect.value;
-            
-            // Reset and hide all options
-            tipoOptions.forEach(option => {
-                option.classList.add('hidden');
-                option.disabled = true;
+        // Manejo de formulario
+        document.getElementById('modalForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evita que la página se recargue
+            const formData = new FormData(this);
+            console.log('Formulario enviado con los siguientes datos:');
+            formData.forEach((value, key) => {
+                console.log(key + ": " + value);
             });
-
-            // Show only relevant subcategories
-            const relevantOptions = document.querySelectorAll(`.tipo-option[data-categoria="${selectedCategoriaId}"]`);
-            relevantOptions.forEach(option => {
-                option.classList.remove('hidden');
-                option.disabled = false;
-            });
-
-            // Reset tipo select
-            tipoSelect.value = '';
+            myModal.classList.add('hidden'); // Cierra el modal después de enviar
         });
 
-        // Flash Notification Auto-dismiss
-        const flashNotifications = document.getElementById('flash-notifications');
-        if (flashNotifications) {
-            setTimeout(() => {
-                flashNotifications.innerHTML = '';
-            }, 5000);
-        }
-        function showFlashNotification(message, type) {
-        const flashNotifications = document.getElementById('flash-notifications');
-        const notificationEl = document.createElement('div');
-        
-        notificationEl.className = `
-            bg-${type === 'success' ? 'green' : 'red'}-100 
-            border-l-4 border-${type === 'success' ? 'green' : 'red'}-500 
-            p-4 rounded-r shadow-md 
-            transition-all duration-500 
-            transform 
-            ${type === 'enter' ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100'}
-            hover:scale-105
-        `;
-        
-        notificationEl.innerHTML = `
-            <p class="text-${type === 'success' ? 'green' : 'red'}-800">
-                ${message}
-            </p>
-        `;
-
-        flashNotifications.appendChild(notificationEl);
-
-        // Trigger reflow to enable transition
-        notificationEl.offsetWidth;
-
-        // Slide in animation
-        notificationEl.classList.remove('translate-x-full', 'opacity-0');
-
-        // Auto-remove after 5 seconds
-        setTimeout(() => {
-            notificationEl.classList.add('translate-x-full', 'opacity-0');
-            
-            // Remove from DOM after transition
-            setTimeout(() => {
-                notificationEl.remove();
-            }, 500);
-        }, 5000);
-    }
-
-    // Existing Flash Notification Setup
-    document.addEventListener('DOMContentLoaded', () => {
-        const flashNotifications = document.getElementById('flash-notifications');
-        
-        // Convert existing flash messages to new style
-        if (flashNotifications) {
-            const existingMessages = flashNotifications.querySelectorAll('div');
-            
-            existingMessages.forEach(message => {
-                const messageText = message.textContent.trim();
-                const type = message.classList.contains('bg-green-100') ? 'success' : 'error';
-                
-                // Remove existing message
-                message.remove();
-                
-                // Show with new animation
-                showFlashNotification(messageText, type);
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
             });
-        }
-    });
 
-    // Example usage for manual flash notifications
-    function triggerFlashNotification(message, type = 'success') {
-        showFlashNotification(message, type);
-    }
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Mostrar la sección de productos por defecto
+        showSection('productos');
     </script>
 </body>
+
 </html>

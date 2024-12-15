@@ -5,6 +5,7 @@ from datetime import datetime
 from uuid import uuid4
 from DataBase import Base_De_Datos
 from models import Producto
+import json
 from dotenv import load_dotenv
 
 app = Flask(__name__)
@@ -42,13 +43,23 @@ def productos(tipo=None):
     
     return render_template('productos.html', productos=productos_data,categorias=categorias)
 
+@app.route('/editar_producto')
+def editar_producto():
+    print("causa")
+    return render_template('index')
 
 @app.route('/admin')
 def admin():
-    productos_data = db.get_conditional_products()
+    productos_data = db.get_conditional_products()  # Lista de instancias de Producto
     categorias = db.get_categories()
     tipos = db.get_types()
-    return render_template('Management.html', productos=productos_data,categorias=categorias, tipos=tipos)
+
+    return render_template(
+        'Management.html',
+        productos=productos_data,
+        categorias=categorias,
+        tipos=tipos
+    )
 
 @app.route('/agregar_producto', methods=['GET', 'POST'])
 def agregar_producto():

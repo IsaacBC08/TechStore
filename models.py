@@ -13,6 +13,17 @@ class Producto:
     def __iter__(self):
         for attr, value in self.__dict__.items():
             yield attr, value
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "precio": self.precio,
+            "categoria": self.categoria,
+            "tipo": self.tipo,
+            "descripcion": self.descripcion,
+            "estado": self.estado,
+            "descuento": self.descuento,
+        }
     @classmethod
     def crear_desde_registro(cls, fila):
         """Crea un objeto Producto desde un registro de la base de datos."""
